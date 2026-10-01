@@ -1,5 +1,5 @@
 {
-  "execution_timestamp": "2026-10-01 15:18:27 UTC",
+  "execution_timestamp": "2026-10-01 15:44:43 UTC",
   "total_scenarios_tested": 20,
   "passed_count": 20,
   "failed_count": 0,
@@ -8,7 +8,7 @@
     "verified": true,
     "details": "All cryptographic Merkle audit blocks verified with zero tampering.",
     "total_committed_epochs": 4,
-    "latest_epoch_header": "13e3f4e46d435a74612eede943c71359637bb8d65e9bd836d9009ccf31837eef"
+    "latest_epoch_header": "d9e2a7f403f8df615176bc8b51f828e5d5fa392252d56b35dfbf0636fc35725b"
   },
   "telemetry_metrics": {
     "panel_1_system_health": {
@@ -46,8 +46,8 @@
       "verification_notes": [
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
-      "latency_ms": 1.46,
-      "merkle_leaf_hash": "0232ce9b31d4461a32e008eef5d8bf16eea8bc8a26a735c009ab87fe93a8f9df",
+      "latency_ms": 1.45,
+      "merkle_leaf_hash": "7ebc6de5681b2f852beebed3877e11f2e64fd17b6f72f3f01013645ea369b4ce",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9776,
@@ -55,7 +55,7 @@
         "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-65E32F"
+      "report_id": "REP-20261001-B0755D"
     },
     "CS-02": {
       "name": "Market Manipulation - Futures Spoofing",
@@ -65,8 +65,8 @@
       "verification_notes": [
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
-      "latency_ms": 0.14,
-      "merkle_leaf_hash": "a300f9b2f0b14fdfdb8591e34227d7dfb9707e956dd7408d2e280d122b976ab2",
+      "latency_ms": 0.13,
+      "merkle_leaf_hash": "4247f07ae005d26b103f3aa27e4974f3becbd9008e13749c2f23ca553c084f06",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9776,
@@ -74,7 +74,7 @@
         "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-248A00"
+      "report_id": "REP-20261001-0A1725"
     },
     "CS-03": {
       "name": "Unsuitable Investment Recommendation",
@@ -85,7 +85,7 @@
         "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
       ],
       "latency_ms": 0.08,
-      "merkle_leaf_hash": "e480c78bf7db171df083bfbe75bffa343216d41e124323f7f19ccb1bde14f505",
+      "merkle_leaf_hash": "a38793d26af0f4b5b9ff2d197d194b30f7cf8af3b2ec5fc1c06c8ea6cce121ac",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.868736,
@@ -104,7 +104,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.08,
-      "merkle_leaf_hash": "25ff2a06ae6ef6ddeb3c5eedcb69be1ce8207948bb891478c14a687c3e8fbb45",
+      "merkle_leaf_hash": "db01c79c39b2403434d5a2277e735fafaed459dd0adbac1dc31231e676d05a06",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9108,
@@ -112,7 +112,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-FA9CFF"
+      "report_id": "REP-20261001-A7A517"
     },
     "CS-05": {
       "name": "Chinese Wall Breach - Information Leakage",
@@ -123,7 +123,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.09,
-      "merkle_leaf_hash": "0028d95361304f399bba46a5a759d1aab26e1a4781f053eca5c33325c3de2d00",
+      "merkle_leaf_hash": "40e7b4d4b0164edc882ed8d1718c06f8a3b9ea2b93302ce569d8f08088d5c74e",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.8712,
@@ -131,7 +131,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-8BBC7E"
+      "report_id": "REP-20261001-D5B905"
     },
     "CS-06": {
       "name": "Wash Trading - Cross-Account Coordination",
@@ -142,7 +142,7 @@
         "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
       ],
       "latency_ms": 0.04,
-      "merkle_leaf_hash": "c2e683a61f29d98c82968d71efd970ee1448dd674cd84a6a93509fe5312d811e",
+      "merkle_leaf_hash": "17f1307785208bd5b40624d1362fb2ac4040f7db93259f91e881ab40abfb7b01",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9108,
@@ -161,7 +161,7 @@
         "PASS: Correctly escalated to TIER_1_ANALYST."
       ],
       "latency_ms": 0.04,
-      "merkle_leaf_hash": "a1c5ee29afa5a6f77c36d6e003731f346223d9f357daf33da9814213e8d26272",
+      "merkle_leaf_hash": "3832993c70e3c3aada3c1e2862aed6a2a2728642936f2535bb4efa822281a804",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.95904,
@@ -180,7 +180,7 @@
         "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
       ],
       "latency_ms": 0.06,
-      "merkle_leaf_hash": "7d839dd65186302ca06abe368d153e83591117e00d279289480e92e0a2a9d08b",
+      "merkle_leaf_hash": "9304c4e54e5733268f2c7ef19873da1f1aeb5b9e4c6ddfd3314b3d5ec3d1285c",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.8712,
@@ -198,8 +198,8 @@
       "verification_notes": [
         "PASS: Correctly escalated to TIER_4_CCO_BOARD."
       ],
-      "latency_ms": 0.12,
-      "merkle_leaf_hash": "68b181d415f4c9ed9c4df1b8e8f1f53f3ea2feeb94a925d52751a7c15e10b01e",
+      "latency_ms": 0.11,
+      "merkle_leaf_hash": "f51f68889ceecabe43a9df358547346f0aa0091a4adb57ef0944555da6927ef1",
       "alerts_count": 2,
       "consensus_metrics": {
         "composite_belief_violation": 0.9998,
@@ -207,7 +207,7 @@
         "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-DB955A"
+      "report_id": "REP-20261001-C722FE"
     },
     "CS-10": {
       "name": "Front-Running - Client Order Anticipation",
@@ -218,7 +218,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.07,
-      "merkle_leaf_hash": "fb5a7a7bf92dacb636a14276ed953b3f2e4530e95b1e01f5ca4ca5054f23f7cc",
+      "merkle_leaf_hash": "4ed76c974df07144630089a496e752436537e72e49e98deb69cd3759553372f8",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9108,
@@ -226,7 +226,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-31D82D"
+      "report_id": "REP-20261001-935B20"
     },
     "CS-11": {
       "name": "Data Privacy Violation - Cross-Border Transfer",
@@ -237,7 +237,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.1,
-      "merkle_leaf_hash": "7e77aefae1524dc7a72bd9c55136597335bdc6408fb8b6289892aeb60182d413",
+      "merkle_leaf_hash": "ff07bc09995095ac8a498c6dd93d948d6d6f5e0d9c786bf6d7ea2e5b8be0e259",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.8712,
@@ -245,7 +245,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-AC858D"
+      "report_id": "REP-20261001-D8AF95"
     },
     "CS-12": {
       "name": "Concentration Risk - Portfolio Limit Breach",
@@ -255,8 +255,8 @@
       "verification_notes": [
         "PASS: Correctly escalated to TIER_1_ANALYST."
       ],
-      "latency_ms": 0.04,
-      "merkle_leaf_hash": "cef399f135c91aa4fab62897afbdfd77e33ffe09364e668fdc11c25e962b93a4",
+      "latency_ms": 0.03,
+      "merkle_leaf_hash": "37ef3f0e8c958121bb074e9e303a65500491ad9fab710b36c9a0049798196ab5",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9108,
@@ -274,8 +274,8 @@
       "verification_notes": [
         "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
       ],
-      "latency_ms": 0.03,
-      "merkle_leaf_hash": "6a9784ae7e240ccc0f5958008d09c73fae0f537f4e56f9ed0efd11654e626bb1",
+      "latency_ms": 0.04,
+      "merkle_leaf_hash": "48083c9f3d16bb275cd65fbb8173d54ef6da1bd593e5ca425aee51d3a2eb5cc1",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.8712,
@@ -294,7 +294,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.07,
-      "merkle_leaf_hash": "fbd3e583eced179f2d4aa200f7567af0e4e1cd73b9bb3aed61c90f5349077af3",
+      "merkle_leaf_hash": "e12be84257692b0e98841a512e4d76b973fbbe38d0ed441583784533489515ba",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9108,
@@ -302,7 +302,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-7D8710"
+      "report_id": "REP-20261001-8482E0"
     },
     "CS-15": {
       "name": "Best Execution Failure - Routing Bias",
@@ -313,7 +313,7 @@
         "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
       ],
       "latency_ms": 0.03,
-      "merkle_leaf_hash": "a5958582320188df5ea846e7b9ce4c3b4df8deefa9d8e7559f93e48e2dda4485",
+      "merkle_leaf_hash": "aeed2028c9285c3337d974c35e8566d6ae5df10f828479fd2834ac6789681ff1",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.9108,
@@ -332,7 +332,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.1,
-      "merkle_leaf_hash": "0ce0cd78969f5f69348fe2408abbfcb4a374f662da665c3138b64b328bc1851a",
+      "merkle_leaf_hash": "ad8ab153ac509868c45e6dca0a70f6114aa533859a86106bc2cc22c763dd62e9",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.8712,
@@ -340,7 +340,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-7746F9"
+      "report_id": "REP-20261001-04E5D8"
     },
     "CS-17": {
       "name": "Elder Financial Exploitation",
@@ -351,7 +351,7 @@
         "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
       ],
       "latency_ms": 0.1,
-      "merkle_leaf_hash": "90196ae7f1ab71764fef634e5a1d1ac242d75aa93ffa5a47841084aecf9ee99d",
+      "merkle_leaf_hash": "bc7ab1b14434133a5472f4870b8b350622542b103d5cf8135fb963f9d99f35d6",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.8712,
@@ -359,7 +359,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-51163D"
+      "report_id": "REP-20261001-53F7B4"
     },
     "CS-18": {
       "name": "FALSE POSITIVE - Legitimate Institutional Block Trade",
@@ -369,8 +369,8 @@
       "verification_notes": [
         "PASS: CS-18 correctly suppressed institutional block trade false positive."
       ],
-      "latency_ms": 0.03,
-      "merkle_leaf_hash": "de429ff1f2cab45cffa0c7d7b46231bc838fc97ea3ad75c6322bb96d01112143",
+      "latency_ms": 0.04,
+      "merkle_leaf_hash": "fa9fbcce07927faa8bf790a0a09ed091dc838451f1ef383bf752f8f75060cbf8",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.508668,
@@ -389,7 +389,7 @@
         "PASS: CS-19 correctly identified EMIR vs MAS cross-border conflict."
       ],
       "latency_ms": 0.07,
-      "merkle_leaf_hash": "beacf8fe4e1dccce68e1f2d81e01e45f6056b595883079156eea1a8026993db2",
+      "merkle_leaf_hash": "ea50fc7574addc63ca3ae4834108bb328ca4c71dac21d2e1d572416c77e1b771",
       "alerts_count": 1,
       "consensus_metrics": {
         "composite_belief_violation": 0.95904,
@@ -397,7 +397,7 @@
         "combination_method": "SINGLE_AGENT_DIRECT"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-1D71FB"
+      "report_id": "REP-20261001-5277B1"
     },
     "CS-20": {
       "name": "COORDINATED - Trade-Based Money Laundering",
@@ -408,7 +408,7 @@
         "PASS: CS-20 coordinated multi-agent money laundering detection with SAR compilation."
       ],
       "latency_ms": 0.15,
-      "merkle_leaf_hash": "dbcf968a1b9d745ce74356287e4766b93c9308adb642816658af83d06d11c126",
+      "merkle_leaf_hash": "f459937fbcf945ab3a0caa21d5e64560823fd596b55fd839e84c32371c7c814a",
       "alerts_count": 2,
       "consensus_metrics": {
         "composite_belief_violation": 0.9963,
@@ -416,7 +416,7 @@
         "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
       },
       "report_generated": true,
-      "report_id": "REP-20261001-4BCCDB"
+      "report_id": "REP-20261001-91A82F"
     }
   }
 }
