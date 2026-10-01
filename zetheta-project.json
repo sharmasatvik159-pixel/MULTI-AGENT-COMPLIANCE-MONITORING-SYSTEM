@@ -51,22 +51,26 @@
     {
       "agent_id": "TM-01",
       "name": "Transaction Monitor",
-      "role": "High-throughput structured transaction and market surveillance"
+      "role": "High-throughput structured transaction and market surveillance",
+      "implementation": "src/agents/transaction_monitor.py"
     },
     {
       "agent_id": "CS-01",
       "name": "Communication Scanner",
-      "role": "Multichannel NLP communication surveillance and conduct risk analysis"
+      "role": "Multichannel NLP communication surveillance and conduct risk analysis",
+      "implementation": "src/agents/communication_scanner.py"
     },
     {
       "agent_id": "RU-01",
       "name": "Regulatory Update Tracker",
-      "role": "Global regulatory feed intelligence, rule diffing, and taxonomy updates"
+      "role": "Global regulatory feed intelligence, rule diffing, and taxonomy updates",
+      "implementation": "src/agents/regulatory_tracker.py"
     },
     {
       "agent_id": "RG-01",
       "name": "Report Generator",
-      "role": "Audit packaging, regulatory disclosure preparation, and SAR/STR filing"
+      "role": "Audit packaging, regulatory disclosure preparation, and SAR/STR filing",
+      "implementation": "src/agents/report_generator.py"
     }
   ],
   "technology_stack": {
@@ -96,6 +100,22 @@
       "Cryptographic Hash-Chained Audit Ledger (SHA-256 Merkle Tree)"
     ]
   },
+  "implementation_modules": {
+    "agents": "src/agents/",
+    "stream_generators": "src/generators/mock_stream.py",
+    "consensus_engine": "src/consensus/dempster_shafer.py",
+    "orchestrator": "src/escalation/orchestrator.py",
+    "audit_ledger": "src/observability/audit_ledger.py",
+    "telemetry": "src/observability/dashboard_metrics.py"
+  },
+  "verification_suite": {
+    "automation_runner": "tests/run_scenarios.py",
+    "regression_tests": "tests/",
+    "execution_results": "tests/scenarios/execution_results.json",
+    "scenarios_tested_count": 20,
+    "scenario_pass_rate_pct": 100.0,
+    "merkle_integrity_verified": true
+  },
   "deliverables_manifest": {
     "d1_system_architecture": "docs/architecture/",
     "d2_communication_protocol": "docs/protocols/",
@@ -103,6 +123,7 @@
     "d4_escalation_framework": "docs/escalation/",
     "d5_agent_specifications": "docs/agents/",
     "d6_scenario_validation_suite": "tests/scenarios/",
-    "d7_observability_and_audit": "docs/observability/"
+    "d7_observability_and_audit": "docs/observability/",
+    "demo_presentation_script": "docs/loom_demo_script.md"
   }
 }

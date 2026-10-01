@@ -1,0 +1,422 @@
+{
+  "execution_timestamp": "2026-10-01 15:18:27 UTC",
+  "total_scenarios_tested": 20,
+  "passed_count": 20,
+  "failed_count": 0,
+  "pass_rate_pct": 100.0,
+  "cryptographic_ledger_integrity": {
+    "verified": true,
+    "details": "All cryptographic Merkle audit blocks verified with zero tampering.",
+    "total_committed_epochs": 4,
+    "latest_epoch_header": "13e3f4e46d435a74612eede943c71359637bb8d65e9bd836d9009ccf31837eef"
+  },
+  "telemetry_metrics": {
+    "panel_1_system_health": {
+      "uptime_seconds": 0.0,
+      "total_events_processed": 20,
+      "current_throughput_eps": 20.0,
+      "latency_distribution": {
+        "p50_ms": 0.1,
+        "p95_ms": 0.15,
+        "p99_ms": 0.15,
+        "mean_ms": 0.17
+      },
+      "circuit_breaker_status": "CLOSED_HEALTHY"
+    },
+    "panel_2_compliance_effectiveness": {
+      "total_alerts_generated": 20,
+      "total_alerts_suppressed": 1,
+      "false_positive_suppression_ratio_pct": 4.76,
+      "sla_adherence_rate_pct": 100.0,
+      "sla_breaches_count": 0
+    },
+    "panel_3_operational_intelligence": {
+      "institutional_scale": "2.4M Transactions / 850k Communications daily target",
+      "consensus_engine": "Dempster-Shafer & Bayesian Fusion",
+      "active_jurisdictions": 12,
+      "monitored_regulators_count": 23
+    }
+  },
+  "scenarios": {
+    "CS-01": {
+      "name": "Insider Trading - Pre-Announcement Accumulation",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 1.46,
+      "merkle_leaf_hash": "0232ce9b31d4461a32e008eef5d8bf16eea8bc8a26a735c009ab87fe93a8f9df",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9776,
+        "conflict_k": 0.103305,
+        "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-65E32F"
+    },
+    "CS-02": {
+      "name": "Market Manipulation - Futures Spoofing",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.14,
+      "merkle_leaf_hash": "a300f9b2f0b14fdfdb8591e34227d7dfb9707e956dd7408d2e280d122b976ab2",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9776,
+        "conflict_k": 0.103305,
+        "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-248A00"
+    },
+    "CS-03": {
+      "name": "Unsuitable Investment Recommendation",
+      "expected_tier": "TIER_2_SENIOR_ANALYST",
+      "actual_tier": "TIER_2_SENIOR_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
+      ],
+      "latency_ms": 0.08,
+      "merkle_leaf_hash": "e480c78bf7db171df083bfbe75bffa343216d41e124323f7f19ccb1bde14f505",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.868736,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-04": {
+      "name": "AML - Structuring Deposits (Smurfing)",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.08,
+      "merkle_leaf_hash": "25ff2a06ae6ef6ddeb3c5eedcb69be1ce8207948bb891478c14a687c3e8fbb45",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9108,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-FA9CFF"
+    },
+    "CS-05": {
+      "name": "Chinese Wall Breach - Information Leakage",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.09,
+      "merkle_leaf_hash": "0028d95361304f399bba46a5a759d1aab26e1a4781f053eca5c33325c3de2d00",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.8712,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-8BBC7E"
+    },
+    "CS-06": {
+      "name": "Wash Trading - Cross-Account Coordination",
+      "expected_tier": "TIER_2_SENIOR_ANALYST",
+      "actual_tier": "TIER_2_SENIOR_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
+      ],
+      "latency_ms": 0.04,
+      "merkle_leaf_hash": "c2e683a61f29d98c82968d71efd970ee1448dd674cd84a6a93509fe5312d811e",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9108,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-07": {
+      "name": "Regulatory Change Impact - Swap Margins",
+      "expected_tier": "TIER_1_ANALYST",
+      "actual_tier": "TIER_1_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_1_ANALYST."
+      ],
+      "latency_ms": 0.04,
+      "merkle_leaf_hash": "a1c5ee29afa5a6f77c36d6e003731f346223d9f357daf33da9814213e8d26272",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.95904,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-08": {
+      "name": "Client Communication - Misleading Performance Claims",
+      "expected_tier": "TIER_2_SENIOR_ANALYST",
+      "actual_tier": "TIER_2_SENIOR_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
+      ],
+      "latency_ms": 0.06,
+      "merkle_leaf_hash": "7d839dd65186302ca06abe368d153e83591117e00d279289480e92e0a2a9d08b",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.8712,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-09": {
+      "name": "Sanctions Violation - Indirect Exposure",
+      "expected_tier": "TIER_4_CCO_BOARD",
+      "actual_tier": "TIER_4_CCO_BOARD",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_4_CCO_BOARD."
+      ],
+      "latency_ms": 0.12,
+      "merkle_leaf_hash": "68b181d415f4c9ed9c4df1b8e8f1f53f3ea2feeb94a925d52751a7c15e10b01e",
+      "alerts_count": 2,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9998,
+        "conflict_k": 0.01,
+        "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-DB955A"
+    },
+    "CS-10": {
+      "name": "Front-Running - Client Order Anticipation",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.07,
+      "merkle_leaf_hash": "fb5a7a7bf92dacb636a14276ed953b3f2e4530e95b1e01f5ca4ca5054f23f7cc",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9108,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-31D82D"
+    },
+    "CS-11": {
+      "name": "Data Privacy Violation - Cross-Border Transfer",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.1,
+      "merkle_leaf_hash": "7e77aefae1524dc7a72bd9c55136597335bdc6408fb8b6289892aeb60182d413",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.8712,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-AC858D"
+    },
+    "CS-12": {
+      "name": "Concentration Risk - Portfolio Limit Breach",
+      "expected_tier": "TIER_1_ANALYST",
+      "actual_tier": "TIER_1_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_1_ANALYST."
+      ],
+      "latency_ms": 0.04,
+      "merkle_leaf_hash": "cef399f135c91aa4fab62897afbdfd77e33ffe09364e668fdc11c25e962b93a4",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9108,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-13": {
+      "name": "Off-Channel Communication - Personal WhatsApp",
+      "expected_tier": "TIER_2_SENIOR_ANALYST",
+      "actual_tier": "TIER_2_SENIOR_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
+      ],
+      "latency_ms": 0.03,
+      "merkle_leaf_hash": "6a9784ae7e240ccc0f5958008d09c73fae0f537f4e56f9ed0efd11654e626bb1",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.8712,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-14": {
+      "name": "Late Trading - Mutual Fund NAV Manipulation",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.07,
+      "merkle_leaf_hash": "fbd3e583eced179f2d4aa200f7567af0e4e1cd73b9bb3aed61c90f5349077af3",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9108,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-7D8710"
+    },
+    "CS-15": {
+      "name": "Best Execution Failure - Routing Bias",
+      "expected_tier": "TIER_2_SENIOR_ANALYST",
+      "actual_tier": "TIER_2_SENIOR_ANALYST",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_2_SENIOR_ANALYST."
+      ],
+      "latency_ms": 0.03,
+      "merkle_leaf_hash": "a5958582320188df5ea846e7b9ce4c3b4df8deefa9d8e7559f93e48e2dda4485",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9108,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-16": {
+      "name": "Conflict of Interest - Research Independence",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.1,
+      "merkle_leaf_hash": "0ce0cd78969f5f69348fe2408abbfcb4a374f662da665c3138b64b328bc1851a",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.8712,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-7746F9"
+    },
+    "CS-17": {
+      "name": "Elder Financial Exploitation",
+      "expected_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "actual_tier": "TIER_3_COMPLIANCE_MANAGER",
+      "passed": true,
+      "verification_notes": [
+        "PASS: Correctly escalated to TIER_3_COMPLIANCE_MANAGER."
+      ],
+      "latency_ms": 0.1,
+      "merkle_leaf_hash": "90196ae7f1ab71764fef634e5a1d1ac242d75aa93ffa5a47841084aecf9ee99d",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.8712,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-51163D"
+    },
+    "CS-18": {
+      "name": "FALSE POSITIVE - Legitimate Institutional Block Trade",
+      "expected_tier": "NONE",
+      "actual_tier": "NONE",
+      "passed": true,
+      "verification_notes": [
+        "PASS: CS-18 correctly suppressed institutional block trade false positive."
+      ],
+      "latency_ms": 0.03,
+      "merkle_leaf_hash": "de429ff1f2cab45cffa0c7d7b46231bc838fc97ea3ad75c6322bb96d01112143",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.508668,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": false,
+      "report_id": null
+    },
+    "CS-19": {
+      "name": "Multi-Jurisdiction Regulatory Conflict",
+      "expected_tier": "TIER_4_CCO_BOARD",
+      "actual_tier": "TIER_4_CCO_BOARD",
+      "passed": true,
+      "verification_notes": [
+        "PASS: CS-19 correctly identified EMIR vs MAS cross-border conflict."
+      ],
+      "latency_ms": 0.07,
+      "merkle_leaf_hash": "beacf8fe4e1dccce68e1f2d81e01e45f6056b595883079156eea1a8026993db2",
+      "alerts_count": 1,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.95904,
+        "conflict_k": 0.0,
+        "combination_method": "SINGLE_AGENT_DIRECT"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-1D71FB"
+    },
+    "CS-20": {
+      "name": "COORDINATED - Trade-Based Money Laundering",
+      "expected_tier": "TIER_4_CCO_BOARD",
+      "actual_tier": "TIER_4_CCO_BOARD",
+      "passed": true,
+      "verification_notes": [
+        "PASS: CS-20 coordinated multi-agent money laundering detection with SAR compilation."
+      ],
+      "latency_ms": 0.15,
+      "merkle_leaf_hash": "dbcf968a1b9d745ce74356287e4766b93c9308adb642816658af83d06d11c126",
+      "alerts_count": 2,
+      "consensus_metrics": {
+        "composite_belief_violation": 0.9963,
+        "conflict_k": 0.009698,
+        "combination_method": "DEMPSTER_ORTHOGONAL_SUM"
+      },
+      "report_generated": true,
+      "report_id": "REP-20261001-4BCCDB"
+    }
+  }
+}
