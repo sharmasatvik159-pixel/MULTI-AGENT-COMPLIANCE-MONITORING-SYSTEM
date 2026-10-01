@@ -1,0 +1,108 @@
+{
+  "project_code": "1B",
+  "project_title": "Multi-Agent Compliance Monitoring System",
+  "version": "1.0.0",
+  "organization": "Zetheta Algorithms",
+  "target_institution": {
+    "name": "Meridian Global Bank",
+    "tier": "Tier-2 Global Bank",
+    "assets_under_management_usd": "450 Billion",
+    "operating_jurisdictions_count": 12,
+    "operating_jurisdictions": [
+      "United States",
+      "United Kingdom",
+      "European Union",
+      "Singapore",
+      "Hong Kong",
+      "Japan",
+      "Australia",
+      "India",
+      "United Arab Emirates",
+      "Canada",
+      "Switzerland",
+      "Brazil"
+    ],
+    "workforce_size": 18000,
+    "annual_compliance_budget_usd": "51.7 Million",
+    "daily_transaction_volume": 2400000,
+    "daily_communication_volume": 850000
+  },
+  "regulatory_frameworks": [
+    "SEC",
+    "FINRA",
+    "OCC",
+    "CFPB",
+    "CFTC",
+    "FCA",
+    "PRA",
+    "ESMA",
+    "ECB/SSM",
+    "MAS",
+    "HKMA",
+    "SEBI",
+    "RBI",
+    "FIU-IND",
+    "OFAC",
+    "FATF",
+    "GDPR",
+    "PMLA"
+  ],
+  "primary_agents": [
+    {
+      "agent_id": "TM-01",
+      "name": "Transaction Monitor",
+      "role": "High-throughput structured transaction and market surveillance"
+    },
+    {
+      "agent_id": "CS-01",
+      "name": "Communication Scanner",
+      "role": "Multichannel NLP communication surveillance and conduct risk analysis"
+    },
+    {
+      "agent_id": "RU-01",
+      "name": "Regulatory Update Tracker",
+      "role": "Global regulatory feed intelligence, rule diffing, and taxonomy updates"
+    },
+    {
+      "agent_id": "RG-01",
+      "name": "Report Generator",
+      "role": "Audit packaging, regulatory disclosure preparation, and SAR/STR filing"
+    }
+  ],
+  "technology_stack": {
+    "language": "Python 3.11+",
+    "agent_frameworks": [
+      "LangGraph (Graph-based State & Cyclic Multi-Agent Orchestration)",
+      "CrewAI / Microsoft AutoGen (Specialized Role-based Delegation & Conversational Swarms)"
+    ],
+    "workflow_engine": "Temporal.io (Deterministic Durable Execution & Saga Orchestration)",
+    "message_brokers": [
+      "Apache Kafka (High-throughput Event Ingestion, 2.4M txns/day & 850k msgs/day)",
+      "RabbitMQ (AMQP Priority Queues, RPC, and Dead-Letter Routing)"
+    ],
+    "storage_and_vector": {
+      "relational_database": "PostgreSQL 16 (TimescaleDB partition extension for audit logs)",
+      "vector_store": "ChromaDB (Regulatory embeddings, semantic lexicons, policy retrieval)",
+      "in_memory_cache": "Redis 7.2 (Idempotency cache, rate limiting, agent heartbeats)"
+    },
+    "security": {
+      "authentication": "Mutual TLS (mTLS v1.3) via SPIFFE/SPIRE",
+      "secrets_and_kms": "HashiCorp Vault / AWS KMS (Envelope Encryption AES-256-GCM)",
+      "data_localization": "RBI Mandate Storage In-Country (Mumbai/Hyderabad) & GDPR Chapter V"
+    },
+    "observability": [
+      "OpenTelemetry (Distributed Tracing & Metrics)",
+      "Prometheus & Grafana (System Health, Compliance KPIs, Operational Panels)",
+      "Cryptographic Hash-Chained Audit Ledger (SHA-256 Merkle Tree)"
+    ]
+  },
+  "deliverables_manifest": {
+    "d1_system_architecture": "docs/architecture/",
+    "d2_communication_protocol": "docs/protocols/",
+    "d3_conflict_and_consensus": "docs/conflict-resolution/",
+    "d4_escalation_framework": "docs/escalation/",
+    "d5_agent_specifications": "docs/agents/",
+    "d6_scenario_validation_suite": "tests/scenarios/",
+    "d7_observability_and_audit": "docs/observability/"
+  }
+}

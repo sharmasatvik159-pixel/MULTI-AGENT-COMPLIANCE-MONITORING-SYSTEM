@@ -1,0 +1,51 @@
+# Scenario Trace: CS-09 - Sanctions Violation - Indirect Counterparty Exposure
+**System:** Meridian Global Bank Multi-Agent Compliance Monitoring System (Project 1B)  
+**Scenario Code:** CS-09  
+**Target Outcome:** **CRITICAL ALERT**  
+**Primary Agents:** TM-01 + RU-01  
+**Applicable Regulations:** OFAC Regulations, 31 CFR Part 501, EU Sanctions Regulation  
+**Escalation Target:** Tier 4 (CCO / General Counsel)  
+
+---
+
+## 1. Scenario Description & Regulatory Context
+Corporate wire transfer routed through 3 intermediary banks to beneficiary that is subsidiary of entity added to OFAC SDN list 48 hours ago.
+
+* **Enforcement Precedents:** Case patterns drawn directly from SEC, FINRA, FCA, and OFAC enforcement actions.
+* **Governing Statutory Frameworks:** OFAC Regulations, 31 CFR Part 501, EU Sanctions Regulation.
+
+---
+
+## 2. Multi-Agent Detection & Trace-Through Pipeline
+
+`mermaid
+sequenceDiagram
+    autonumber
+    participant Ingest as Ingestion Feed (Kafka)
+    participant TM as Transaction Monitor (TM-01)
+    participant CS as Communication Scanner (CS-01)
+    participant RU as Regulatory Tracker (RU-01)
+    participant Consensus as Consensus Engine (DST)
+    participant HITL as Escalation Router & Human Officer
+    participant RG as Report Generator (RG-01)
+
+    Ingest->>TM: Ingests raw events & sliding window telemetry
+    Ingest->>CS: Ingests communication transcripts
+    Note over TM,CS: Autonomous pattern matching & anomaly scoring
+    TM->>Consensus: m_TM(V) belief assignment
+    CS->>Consensus: m_CS(V) belief assignment
+    RU->>Consensus: Statutory rule vectors & constraints
+    Consensus->>Consensus: Calculates conflict K and orthogonal sum
+    Consensus->>HITL: Dispatches Decision Support Package (Tier 4 (CCO / General Counsel))
+    HITL->>RG: Human signoff / override instruction
+    RG->>RG: Seals report draft in WORM audit ledger
+`
+
+---
+
+## 3. Consensus Scoring & Resolution Outcome
+* **Primary Agents Invoked:** TM-01 + RU-01
+* **Expected System Outcome:** CRITICAL ALERT
+* **Escalation Path:** Tier 4 (CCO / General Counsel)
+* **Remediation Action:** Immediate transaction freeze and 10-day OFAC blocking report
+* **Cryptographic Verification:** SHA-256 Merkle leaf sealed in immutable audit ledger.
