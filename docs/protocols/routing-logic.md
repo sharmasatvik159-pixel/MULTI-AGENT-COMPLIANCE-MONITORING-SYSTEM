@@ -1,64 +1,98 @@
 # Message Routing Logic, Priority Queues & Error Handling
 **System:** Meridian Global Bank Multi-Agent Compliance Monitoring System (Project 1B)  
-**Document Code:** `D2-RL-v1.0`  
+**Document Code:** `D2-RL-v2.0`  
 **Classification:** Tier-2 Global Banking Architecture Specification  
 **Author:** AI Systems Architect, Zetheta Algorithms  
 
 ---
 
-## 1. Five-Level Priority Classification & SLAs
+## 1. Five-Level Priority Classification & Hard System SLAs
 
-The messaging infrastructure implements a rigid 5-level priority classification mapped to RabbitMQ priority queues (`x-max-priority = 5`) and Kafka QoS lanes.
+To prevent alert starvation during market volatility bursts, message brokers enforce 5 priority levels (`x-max-priority = 5` in RabbitMQ) governed by legally binding internal SLAs:
 
-| Priority Tier | Classification | Example Compliance Triggers | Human Escalation SLA | System Routing Latency | Queue Preemption Policy |
-| :---: | :--- | :--- | :--- | :--- | :--- |
-| **P1** | **CRITICAL** | Active OFAC Sanctions hit (CS-09), $100M+ Market Spoofing (CS-02), Critical Insider Trading (CS-01) | **< 15 Minutes** | < 100 milliseconds | Immediate preemption; interrupts lower-tier worker pools. |
-| **P2** | **HIGH** | Chinese Wall breach (CS-05), Cross-Border GDPR violation (CS-11), Coordinated Wash Trading (CS-06) | **< 2 Hours** | < 500 milliseconds | High-priority queue processing; guaranteed dedicated thread allocation. |
-| **P3** | **MEDIUM** | Portfolio concentration limit breach (CS-12), Regulatory margin changes (CS-07), Unsuitable recommendations | **< 8 Hours** (Same Day) | < 2 seconds | Standard FIFO queue processing within dedicated worker pool. |
-| **P4** | **LOW** | Off-channel WhatsApp chat inquiry (CS-13), Routine supervisory signoff follow-ups | **< 24 Hours** (Next Day) | < 10 seconds | Batched processing during off-peak market trading hours. |
-| **P5** | **INFORMATIONAL** | Agent heartbeats, daily throughput metrics, routine model telemetry | **< 72 Hours** (Audit Only) | Best-Effort (< 30s) | Processed when system CPU load is under 50%; droppable under surge. |
+```
++---------------------------------------------------------------------------------------------------+
+| PRIORITY TIER | CLASSIFICATION | TARGET PROCESSING SLA | SYSTEM ROUTING BUDGET | COMPLIANCE DOMAIN|
++---------------------------------------------------------------------------------------------------+
+| Priority 1    | CRITICAL       | < 500 milliseconds    | < 50 milliseconds     | OFAC, Spoofing   |
+| Priority 2    | HIGH           | < 2.0 seconds         | < 200 milliseconds    | Chinese Wall, AML|
+| Priority 3    | MEDIUM         | < 10.0 seconds        | < 1.0 second          | Margin Changes   |
+| Priority 4    | LOW            | < 60.0 seconds        | < 5.0 seconds         | Off-Channel Follow|
+| Priority 5    | INFORMATIONAL  | Best Effort (< 300s)  | < 30.0 seconds        | Telemetry, Logs  |
++---------------------------------------------------------------------------------------------------+
+```
+
+### 1.1 Priority 1 (CRITICAL): Sub-500ms Processing Mandate
+* **Trigger Events:** Real-time OFAC SDN sanctions hit on outgoing SWIFT wires (CS-09), algorithmic crude oil futures spoofing (CS-02), coordinated trade-based money laundering (CS-20).
+* **Guaranteed Execution Budget:**
+  * Ingestion & schema validation: $\le 20\text{ ms}$
+  * Machine model inference & feature lookup: $\le 180\text{ ms}$
+  * Dempster-Shafer consensus score calculation: $\le 50\text{ ms}$
+  * Priority 1 Queue dispatch & PagerDuty/SMS push to Compliance Officer: $\le 100\text{ ms}$
+  * **Total End-to-End Latency:** $\le 350\text{ ms}$ (well below the $500\text{ ms}$ hard SLA ceiling).
 
 ---
 
-## 2. Dynamic Routing Matrix
+## 2. Priority Queue Preemption & Queue Architecture
 
 ```mermaid
 flowchart TD
-    Inbound["Inbound Message Envelope"] --> SchemaCheck{"Valid JSON Schema & Signature?"}
-    
-    SchemaCheck -- No --> Quarantine["Route to Dead-Letter Queue (DLQ)<br/>Notify Security Operations"]
-    SchemaCheck -- Yes --> TypeSwitch{"Message Type?"}
-    
-    TypeSwitch -- ALERT --> PrioritySwitch{"Priority Tier?"}
-    TypeSwitch -- QUERY --> DirectRPC["RabbitMQ Direct Reply-To RPC"]
-    TypeSwitch -- RESPONSE --> Correlator["LangGraph Correlation Engine"]
-    TypeSwitch -- UPDATE --> FanoutExchange["Broadcast Fanout Exchange (All Agents)"]
-    TypeSwitch -- HEARTBEAT --> RedisLiveness["Update Redis Liveness Key"]
-    
-    PrioritySwitch -- P1: CRITICAL --> P1Queue["Queue: agent.escalation.critical (P1)<br/>SMS / PagerDuty Alert to CCO"]
-    PrioritySwitch -- P2: HIGH --> P2Queue["Queue: agent.escalation.high (P2)<br/>Compliance Manager Dashboard"]
-    PrioritySwitch -- P3-P5 --> StandardQueue["Queue: agent.escalation.standard (P3-P5)"]
+    Inbound["Inbound AMQP / Kafka Message"] --> PriorityClassifier["Header Priority Inspection"]
+
+    PriorityClassifier -->|Priority 1: CRITICAL| Q1["<b>Queue: agent.priority.p1_critical</b><br/>Preempts Worker Threads | SLA < 500ms"]
+    PriorityClassifier -->|Priority 2: HIGH| Q2["<b>Queue: agent.priority.p2_high</b><br/>Dedicated Worker Core | SLA < 2s"]
+    PriorityClassifier -->|Priority 3: MEDIUM| Q3["<b>Queue: agent.priority.p3_medium</b><br/>Standard Thread Pool | SLA < 10s"]
+    PriorityClassifier -->|Priority 4: LOW| Q4["<b>Queue: agent.priority.p4_low</b><br/>Batch Worker Queue | SLA < 60s"]
+    PriorityClassifier -->|Priority 5: INFO| Q5["<b>Queue: agent.priority.p5_info</b><br/>Yields to higher queues | Best Effort"]
+
+    Q1 --> WorkerPool["High-Priority Worker Execution Pool"]
+    Q2 --> WorkerPool
+    Q3 --> StandardPool["Standard Worker Execution Pool"]
+    Q4 --> StandardPool
+    Q5 --> BackgroundPool["Background Low-Priority Pool"]
 ```
 
 ---
 
-## 3. Error Handling, Retry Policies & Dead-Letter Queue (DLQ)
+## 3. Resilient Error Handling & Retry Policies
 
 ### 3.1 Exponential Backoff with Decorrelated Jitter
-When an agent fails to acknowledge an RPC query or report-compilation command, the orchestrator triggers an exponential backoff retry policy designed to prevent thundering herd spikes:
+When an agent or RPC endpoint fails to respond within its timeout window, the coordinator applies exponential backoff with full randomized jitter to prevent synchronous harmonic thundering-herd overload:
 
-$$T_{\text{sleep}} = \min(T_{\text{max}}, \; T_{\text{base}} \times 2^{\text{retry\_count}}) + \text{Uniform}(0, \text{Jitter})$$
+$$T_{\text{wait}} = \min(T_{\text{max}}, \; \text{random\_uniform}(T_{\text{base}}, \; T_{\text{base}} \times 2^{\text{retry\_count}}))$$
 
-* $T_{\text{base}} = 500\text{ ms}$
-* $T_{\text{max}} = 30\text{ seconds}$
-* $\text{Max Retries} = 3$
+* **Configuration Parameters:**
+  * $T_{\text{base}} = 250\text{ milliseconds}$
+  * $T_{\text{max}} = 10\text{ seconds}$
+  * $\text{Max Retries} = 3$
 
-### 3.2 Dead-Letter Queue (DLQ) Quarantine Pipeline
-If an envelope fails after 3 retry attempts or fails cryptographic signature validation:
-1. The message is wrapped in an `ErrorDiagnosticEnvelope` containing:
-   * Original binary payload.
-   * Stack trace and error code (`E_SIGNATURE_INVALID`, `E_SCHEMA_MISMATCH`, `E_TIMEOUT`).
-   * Route history and retry timestamps.
-2. Routed to RabbitMQ Dead-Letter Exchange (`meridian.dlx`) and stored in queue `agent.deadletter.queue`.
-3. An alert is dispatched to the Platform Engineering and Security Operations Center (SOC) dashboard.
-4. Messages remain in the DLQ for **30 days** to allow offline administrative replay following bug fixes.
+### 3.2 Dead-Letter Queue (DLQ) Quarantine Lifecycle
+If a message exceeds maximum retries ($R > 3$), encounters a non-recoverable schema violation (`SchemaValidationError`), or fails cryptographic signature validation:
+1. **Immediate Quarantine:** The message is moved to the RabbitMQ Dead-Letter Exchange (`meridian.dlx`) and bound to `agent.deadletter.queue`.
+2. **Diagnostic Metadata Injection:** An error wrapper is attached containing:
+   * `failure_reason`: Exact exception traceback and error code.
+   * `originating_broker`: Ingestion timestamp and original topic/queue.
+   * `retry_audit_trail`: Millisecond timestamps of all 3 failed delivery attempts.
+3. **Retention & Admin Replay:** DLQ messages persist for **30 days** in hot storage. Operations engineers can inspect, re-validate, and replay dead-letter messages to live agent queues via management CLI tools (`scripts/replay_dlq.py`).
+
+---
+
+## 4. Bandwidth Management & Adaptive Backpressure Controls
+
+When processing 2.4 million daily transactions, market volatility spikes (e.g., non-farm payroll announcements, earnings releases) can surge transaction arrival rates from a baseline of 30 txns/sec to **35,000 txns/sec**. The routing layer maintains system stability through three tiered backpressure mechanisms:
+
+```mermaid
+graph TD
+    subgraph BackpressureTiers["Adaptive Backpressure Progression"]
+        T1["<b>Tier 1: Kafka Partition Buffering</b><br/>In-memory buffer handles short 10s bursts.<br/>Zero consumer throttling."]
+        T2["<b>Tier 2: Reactive Worker Autoscaling</b><br/>Lag > 5,000 msgs triggers Kubernetes HPA.<br/>Pod count scales from 8 to 24."]
+        T3["<b>Tier 3: Graceful Degradation (Load Shedding)</b><br/>Lag > 15,000 msgs sheds Priority 5 & 4 tasks.<br/>P1 & P2 compliance pipelines guaranteed 100% bandwidth."]
+    end
+
+    T1 -->|Buffer Fills| T2
+    T2 -->|Saturation Sustained| T3
+```
+
+1. **Kafka Partition Buffering:** High-throughput NVMe storage on Kafka broker nodes acts as a shock absorber, absorbing bursts without dropping a single event.
+2. **Dynamic Consumer Autoscaling:** Kubernetes Horizontal Pod Autoscaler (HPA) monitors consumer group lag. If lag exceeds 5,000 records on `meridian.transactions.v1`, worker pods scale from 8 to 24 within 45 seconds.
+3. **Graceful Surveillance Degradation:** If consumer lag exceeds 15,000 records, the routing gateway throttles low-priority tasks (e.g., historical report compilations and informational heartbeats), guaranteeing that **100% of compute capacity is reserved for Priority 1 and Priority 2 compliance monitoring**.

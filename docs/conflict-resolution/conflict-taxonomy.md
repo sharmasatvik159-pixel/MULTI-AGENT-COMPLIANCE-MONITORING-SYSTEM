@@ -1,6 +1,6 @@
-# Inter-Agent Conflict Taxonomy & Tie-Breaking Rules
+# Inter-Agent Conflict Taxonomy, Tie-Breaking Rules & Mediator Procedures
 **System:** Meridian Global Bank Multi-Agent Compliance Monitoring System (Project 1B)  
-**Document Code:** `D3-CT-v1.0`  
+**Document Code:** `D3-CT-v2.0`  
 **Classification:** Tier-2 Global Banking Architecture Specification  
 **Author:** AI Systems Architect, Zetheta Algorithms  
 
@@ -8,62 +8,105 @@
 
 ## 1. Conflict Classification Taxonomy
 
-When independent autonomous agents operate over multifaceted banking datasets, disagreements inevitably arise. The system categorizes inter-agent conflict into five distinct taxonomies:
+When independent agents observe complex banking activities, disagreements emerge from model differences, data modality gaps, and conflicting sovereign laws. The system standardizes three primary conflict taxonomies:
 
-```
-+---------------------------------------------------------------------------------------------------+
-| CONFLICT CATEGORY          | PRIMARY AGENTS INVOLVED  | ROOT CAUSE                         | RISK |
-+---------------------------------------------------------------------------------------------------+
-| 1. Factual Discrepancy     | TM-01 vs CS-01           | Inconsistent timestamps or IDs     | High |
-| 2. Semantic Interpretation | CS-01 vs TM-01           | Contextual ambiguity in chatter    | Med  |
-| 3. Cross-Jurisdictional    | RU-01 vs Global Units    | Contradictory national laws        | Crit |
-| 4. Temporal Horizon        | TM-01 vs TM-01 (Models)  | Microsecond burst vs 90d baseline  | Med  |
-| 5. Regulatory Ambiguity    | RU-01 vs System Policies | Unclear circular guidance          | High |
-+---------------------------------------------------------------------------------------------------+
+```mermaid
+graph TD
+    Conflict["Inter-Agent Conflict Detected (K >= 0.40)"] --> Classify{"Conflict Taxonomy Classifier"}
+
+    Classify -->|Modality Gaps| T1["<b>1. Domain Misalignment</b><br/>Trade Math vs Communication Sentiment"]
+    Classify -->|Exemption Discrepancy| T2["<b>2. False Positive Divergence</b><br/>Anomaly Detected vs Pre-Clearance Ticket"]
+    Classify -->|Sovereignty Collision| T3["<b>3. Cross-Jurisdictional Conflict</b><br/>Mandatory Disclosure vs Bank Secrecy"]
+
+    T1 --> R1["Deterministic Tie-Breaking Rule 1:<br/>Quantitative Precedence with Corroboration SLA"]
+    T2 --> R2["Deterministic Tie-Breaking Rule 2:<br/>Compliance Exemption Supremacy"]
+    T3 --> R3["Deterministic Tie-Breaking Rule 3:<br/>Local Sovereign Paramountcy & Legal Freeze"]
 ```
 
 ---
 
-## 2. Taxonomy Analysis & Tie-Breaking Resolution Rules
+## 2. In-Depth Conflict Analysis & Deterministic Tie-Breaking Rules
 
-### 2.1 Category 1: Factual Discrepancy (Timestamp / Entity Mismatch)
-* **Description:** An agent’s structured event logs directly contradict another agent’s timeline.
-* **Archetype Scenario (CS-14: Late Trading):** OMS logs state mutual fund orders arrived at 16:00:00 ET, but CS-01 communication captures show trader entered orders via terminal at 16:18 ET.
-* **Tie-Breaking Rule:** **Physical Immutable Clock Precedence (PTP/GPS).** Application-level user timestamps are superseded by low-level network packet capture (PCAP) and database journal commit timestamps. The factual contradiction itself is tagged as an *independent indicator of deception* and escalated to Tier 3.
+### 2.1 Category 1: Domain Misalignment
+* **Definition:** Disagreement arising when structured trading feeds (`TM-01`) indicate anomalous market execution, but unstructured communications (`CS-01`) show no conspiratorial language—or conversely, where aggressive talk occurs without corresponding trades.
+* **Archetype Example (Spoofing vs Silent Chat):** An algorithmic trading desk places and cancels 47 crude oil futures orders within 300ms ($OTR = 35:1$). `CS-01` finds no chat chatter because the manipulation was fully automated.
+* **Deterministic Tie-Breaking Rule:**
+  * **Objective Quantitative Supremacy:** Algorithmic market manipulation violations under CEA Section 4c(a)(5) and Dodd-Frank Section 747 do **not** require proof of verbal collusion; the mathematical pattern of order cancellation establishes the prima facie violation.
+  * `TM-01` quantitative evidence overrides `CS-01` silence.
+  * Combined belief is set to $m(\{V\}) = \max(m_{\text{TM}}(\{V\}), \; 0.85)$.
+  * A mandatory notice is appended to the Decision Support Package stating: *"Automated algorithm detected; lack of conversational corroboration expected."*
 
-### 2.2 Category 2: Semantic Interpretation Conflict
-* **Description:** `TM-01` flags a transaction as suspicious market abuse, while `CS-01` finds written communication suggesting legitimate business intent, or vice versa.
-* **Archetype Scenario (CS-18: False Positive Block Trade):** `TM-01` detects an 8% ADV volume surge ($450M), but `CS-01` finds pre-trade client authorization and compliance pre-clearance tickets.
-* **Tie-Breaking Rule:** **Formal Compliance Exemption Supremacy.** If documented proof of pre-clearance exists within sanctioned compliance ticketing repositories, `CS-01` evidence suppresses `TM-01` alerts, provided $K < 0.20$.
+### 2.2 Category 2: False Positive Divergence
+* **Definition:** An agent flags a severe statistical outlier, but another agent identifies an official regulatory exemption, pre-clearance ticket, or authorized corporate program.
+* **Archetype Example (CS-18: Legitimate Block Trade):** `TM-01` flags a $450 million equity trade representing 8% of Average Daily Volume. `CS-01` and system ticket records confirm the trade was pre-arranged with the institutional block desk under an approved corporate rebalancing mandate.
+* **Deterministic Tie-Breaking Rule:**
+  * **Documented Compliance Exemption Supremacy:** Explicit statutory exemptions and verified pre-trade clearance tickets supersede statistical anomaly triggers.
+  * If verified pre-clearance ticket ID exists and matches counterparty/amount within $\pm 0.1\%$, the alert is **definitively suppressed**.
+  * The system enters an automated audit event (`SUPPRESSED_FALSE_POSITIVE`) with zero human alert paging, avoiding a $-25$ point penalty.
 
 ### 2.3 Category 3: Cross-Jurisdictional Regulatory Conflict
-* **Description:** Compliance with one sovereign regulator requires action that directly violates the penal or privacy laws of another jurisdiction.
-* **Archetype Scenario (CS-19: Multi-Jurisdiction Conflict):** EU EMIR mandates reporting of all OTC derivative details within 1 business day. Simultaneously, Singapore MAS regulations and bank secrecy laws prohibit cross-border sharing of client derivative positions without judicial waiver.
-* **Tie-Breaking Rule:** **Strict Local Law Paramountcy & Immediate Legal Escalation.** The system forbids autonomous resolution of cross-border legal sovereignty conflicts. The transaction is placed in administrative escrow, and an emergency dossier is routed directly to General Counsel and Tier 4 (CCO).
-
-### 2.4 Category 4: Temporal Horizon Conflict
-* **Description:** An agent evaluates a trade as anomalous within a 5-minute sliding window, but benign within a 60-day historical macro trend.
-* **Tie-Breaking Rule:** **Precautionary Escalation Principle.** If an immediate threshold breach creates severe market liability (e.g., crossing a 25% sector concentration cap in CS-12), the short-term violation triggers an interim warning while the long-term context is attached as mitigating commentary.
+* **Definition:** Compliance with the statutory mandate of Jurisdiction $A$ constitutes a direct criminal or civil violation of the sovereign laws of Jurisdiction $B$.
+* **Archetype Example (CS-19: EU EMIR vs Singapore MAS):**
+  * EU EMIR mandates reporting all OTC derivative details to an approved trade repository within 1 business day ($T+1$).
+  * Singapore MAS Banking Act (Cap. 19, Section 47) and personal data protection regulations prohibit cross-border disclosure of customer banking and position data without explicit customer consent or court order.
+* **Deterministic Tie-Breaking Rule:**
+  * **Strict Sovereign Data Paramountcy & Immediate Escrow:** The system is strictly prohibited from autonomously resolving sovereign conflicts.
+  * Trade reporting to the extraterritorial regulator (EMIR) is halted and staged in an encrypted legal escrow holding queue.
+  * The conflict is tagged as **Priority 1 CRITICAL** and escalated immediately to the **General Counsel and Chief Compliance Officer (Tier 4)** within **< 15 minutes**.
 
 ---
 
-## 3. Conflict Resolution Audit Trail Specification
+## 3. Mediator Fallback Procedures (High-Conflict Deadlocks)
 
-Every detected inter-agent disagreement generates an immutable **Conflict Record** in the PostgreSQL audit schema:
+When the conflict metric $K$ crosses critical boundaries, automated consensus halts to prevent Zadeh’s paradox distortions:
+
+```
++---------------------------------------------------------------------------------------------------+
+| CONFLICT RANGE (K) | OPERATIONAL STATUS       | MATHEMATICAL COMBINATION RULE     | SYSTEM ACTION |
++---------------------------------------------------------------------------------------------------+
+| K < 0.65           | Normal Consensus         | Standard Dempster-Shafer Sum      | Auto-Resolved |
+| 0.65 <= K < 0.85   | Elevated Conflict        | Yager's Modified Combination Rule | Tier 2 Review |
+| K >= 0.85          | Severe Deadlock (Zadeh)  | Suspended Combination (Orthogonal)| Tier 3 Freeze |
++---------------------------------------------------------------------------------------------------+
+```
+
+### 3.1 Yager's Modified Combination Algorithm ($0.65 \le K < 0.85$)
+Under Yager's rule, conflicting belief masses are not redistributed to focal elements by dividing by $1 - K$. Instead, the conflicting mass $K$ is assigned directly to the uncommitted ignorance set $\Theta$:
+
+$$m_Y(A) = \sum_{B \cap C = A} m_1(B) \cdot m_2(C) \quad \forall A \subset \Theta, \; A \neq \emptyset$$
+
+$$m_Y(\Theta) = m_1(\Theta) \cdot m_2(\Theta) + K$$
+
+This preserves mathematical integrity by explicitly declaring that the agents' contradiction demonstrates a state of profound uncertainty rather than false certainty.
+
+---
+
+## 4. Conflict Audit Trail Logging Schema
+
+Every identified conflict ($K \ge 0.40$) generates an immutable, tamper-evident log in TimescaleDB:
 
 ```json
 {
-  "conflict_id": "cnf-9021-ba81",
-  "timestamp": "2026-10-01T14:22:10.891Z",
-  "taxonomy_category": "CROSS_JURISDICTIONAL",
-  "involved_agents": ["RU-01", "TM-01"],
-  "conflict_metric_k": 0.88,
-  "agent_positions": {
-    "TM-01": {"recommendation": "EXECUTE_EMIR_DISCLOSURE", "confidence": 0.92},
-    "RU-01": {"recommendation": "HALT_DUE_TO_MAS_SECRECY", "confidence": 0.95}
+  "conflict_event_id": "cnf-20261001-8841-a1b2",
+  "timestamp": "2026-10-01T14:48:22.109Z",
+  "conflict_taxonomy": "FALSE_POSITIVE_DIVERGENCE",
+  "conflict_metric_k": 0.724,
+  "participating_agents": ["TM-01", "CS-01"],
+  "agent_evaluations": {
+    "TM-01": {
+      "assertion": "VIOLATION",
+      "calibrated_confidence": 0.85,
+      "mass_vector": { "V": 0.765, "not_V": 0.135, "Theta": 0.100 }
+    },
+    "CS-01": {
+      "assertion": "BENIGN_EXEMPTION",
+      "calibrated_confidence": 0.10,
+      "mass_vector": { "V": 0.085, "not_V": 0.765, "Theta": 0.150 }
+    }
   },
-  "applied_rule": "STRICT_LOCAL_SOVEREIGNTY_ESCALATE_TIER_4",
-  "resolution_status": "ESCALATED_TO_LEGAL_COUNSEL",
-  "dossier_hash": "sha256:4a7e93f...b891"
+  "arbitration_rule_applied": "COMPLIANCE_EXEMPTION_SUPREMACY",
+  "outcome": "ALERT_SUPPRESSED_CONFIRMED_BLOCK_TRADE",
+  "human_intervention_required": false,
+  "cryptographic_proof": "sha256:7f92a1...04c8"
 }
 ```

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://meridian.bank/schemas/protocols/message-schema.json",
-  "title": "Meridian Global Bank Inter-Agent Message Protocol Schema",
-  "description": "Authoritative JSON Schema for all inter-agent communication, escalation, and coordination envelopes across TM-01, CS-01, RU-01, and RG-01.",
+  "title": "Meridian Global Bank Inter-Agent Protocol Schema",
+  "description": "Production JSON Schema specification defining all message envelopes, authentication headers, routing priorities, and polymorphic payloads for TM-01, CS-01, RU-01, RG-01, and coordination orchestrators.",
   "type": "object",
   "required": [
     "message_id",
@@ -30,12 +30,12 @@
     "protocol_version": {
       "type": "string",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
-      "description": "Semantic protocol version (e.g., 1.0.0)."
+      "description": "Semantic protocol version (e.g. 1.0.0, 1.1.0)."
     },
     "timestamp": {
       "type": "string",
       "format": "date-time",
-      "description": "ISO 8601 UTC timestamp with millisecond precision at envelope creation."
+      "description": "ISO 8601 UTC timestamp with millisecond precision."
     },
     "sender_agent_id": {
       "type": "string",
@@ -48,20 +48,40 @@
         "CONSENSUS-01",
         "HUMAN-SUPERVISOR"
       ],
-      "description": "Canonical identifier of the originating agent or human service principal."
+      "description": "Canonical identifier of the transmitting agent or service principal."
     },
     "recipient_agent_id": {
       "oneOf": [
         {
           "type": "string",
+          "enum": [
+            "TM-01",
+            "CS-01",
+            "RU-01",
+            "RG-01",
+            "ORCHESTRATOR-01",
+            "CONSENSUS-01",
+            "HUMAN-SUPERVISOR",
+            "BROADCAST"
+          ],
           "description": "Single recipient agent identifier or 'BROADCAST'."
         },
         {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "TM-01",
+              "CS-01",
+              "RU-01",
+              "RG-01",
+              "ORCHESTRATOR-01",
+              "CONSENSUS-01",
+              "HUMAN-SUPERVISOR"
+            ]
           },
           "minItems": 1,
+          "uniqueItems": true,
           "description": "Multicast list of recipient agent identifiers."
         }
       ]
@@ -82,43 +102,35 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 5,
-      "description": "Priority tier: 1=CRITICAL (Sub-minute), 2=HIGH, 3=MEDIUM, 4=LOW, 5=INFORMATIONAL."
+      "description": "Priority tier: 1=CRITICAL (<500ms processing SLA), 2=HIGH (<2s SLA), 3=MEDIUM (<10s SLA), 4=LOW (<60s SLA), 5=INFORMATIONAL (Best effort)."
     },
     "correlation_id": {
       "type": "string",
       "format": "uuid",
-      "description": "UUID linking all related messages in a conversational saga or investigation chain."
+      "description": "UUID linking all related messages in a conversational saga or cross-agent inquiry chain."
     },
     "trace_id": {
       "type": "string",
       "format": "uuid",
-      "description": "Distributed OpenTelemetry tracing identifier across microservices and agents."
-    },
-    "payload_schema": {
-      "type": "string",
-      "pattern": "^[a-z]+(\\.[a-z0-9\\-]+)+$",
-      "description": "Identifier specifying the structured schema of the inner payload (e.g., alert.insider-trading.v1)."
-    },
-    "payload": {
-      "type": "object",
-      "description": "Message-type-specific structured content, evidence tokens, parameters, or narratives."
+      "description": "Distributed OpenTelemetry tracing identifier across microservices, brokers, and worker pods."
     },
     "confidence_score": {
       "type": "number",
       "minimum": 0.0,
       "maximum": 1.0,
-      "description": "Agent subjective belief mass or model probability regarding the violation assertion."
+      "description": "Agent subjective belief mass or model probability regarding the violation assertion (0.0 to 1.0)."
     },
     "ttl_seconds": {
       "type": "integer",
       "minimum": 1,
       "maximum": 604800,
-      "description": "Time-to-live in seconds before the envelope is expired or dropped."
+      "description": "Time-to-live in seconds before message expires or is dropped by broker queues."
     },
     "retry_count": {
       "type": "integer",
       "minimum": 0,
-      "description": "Count of delivery attempts made (0 for original transmission)."
+      "maximum": 5,
+      "description": "Number of delivery retry attempts made (0 for initial transmission)."
     },
     "audit_classification": {
       "type": "string",
@@ -127,17 +139,239 @@
         "OPERATIONAL",
         "DIAGNOSTIC"
       ],
-      "description": "Legal audit taxonomy determining statutory retention duration (e.g., REGULATORY = 7-10 years)."
+      "description": "Legal audit taxonomy determining statutory retention duration (REGULATORY = 7-10 years)."
     },
     "sender_signature": {
       "type": "string",
-      "description": "Base64-encoded asymmetric digital signature (ECDSA P-384 or RSA-4096) computed over message payload digest."
+      "description": "Base64-encoded asymmetric digital signature (ECDSA P-384 or RSA-4096) computed over canonical JSON payload digest."
     },
     "nonce": {
       "type": "string",
       "minLength": 16,
+      "maxLength": 64,
       "description": "Cryptographically secure pseudo-random one-time string preventing replay attacks."
+    },
+    "payload_schema": {
+      "type": "string",
+      "pattern": "^[a-z]+(\\.[a-z0-9\\-]+)+$",
+      "description": "Formal schema identifier of the inner payload (e.g., alert.market-abuse.v1, query.communication.v1)."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Message-type-specific structured content, evidence tokens, parameters, or narratives.",
+      "oneOf": [
+        { "$ref": "#/$defs/AlertPayload" },
+        { "$ref": "#/$defs/QueryPayload" },
+        { "$ref": "#/$defs/ResponsePayload" },
+        { "$ref": "#/$defs/UpdatePayload" },
+        { "$ref": "#/$defs/HeartbeatPayload" },
+        { "$ref": "#/$defs/EscalationPayload" }
+      ]
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "AlertPayload": {
+      "type": "object",
+      "required": [
+        "alert_id",
+        "violation_category",
+        "severity",
+        "detection_timestamp",
+        "primary_entity_id",
+        "entity_type",
+        "applicable_regulations",
+        "evidence_summary"
+      ],
+      "properties": {
+        "alert_id": { "type": "string", "format": "uuid" },
+        "violation_category": {
+          "type": "string",
+          "enum": [
+            "INSIDER_TRADING",
+            "MARKET_MANIPULATION_SPOOFING",
+            "MARKET_MANIPULATION_WASH_TRADING",
+            "UNSUITABLE_RECOMMENDATION",
+            "AML_STRUCTURING",
+            "CHINESE_WALL_BREACH",
+            "REGULATORY_CHANGE_IMPACT",
+            "MISLEADING_MARKETING",
+            "SANCTIONS_EXPOSURE",
+            "FRONT_RUNNING",
+            "DATA_PRIVACY_BREACH",
+            "CONCENTRATION_RISK_LIMIT",
+            "OFF_CHANNEL_COMMUNICATION",
+            "LATE_TRADING",
+            "BEST_EXECUTION_FAILURE",
+            "RESEARCH_INDEPENDENCE_CONFLICT",
+            "ELDER_FINANCIAL_EXPLOITATION",
+            "FALSE_POSITIVE_BLOCK_TRADE",
+            "MULTI_JURISDICTION_CONFLICT",
+            "TRADE_BASED_MONEY_LAUNDERING"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFORMATIONAL"]
+        },
+        "detection_timestamp": { "type": "string", "format": "date-time" },
+        "primary_entity_id": { "type": "string" },
+        "entity_type": {
+          "type": "string",
+          "enum": ["ACCOUNT", "TRADER", "DESK", "INSTRUMENT", "COMMUNICATION_THREAD", "COUNTERPARTY"]
+        },
+        "applicable_regulations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "quantitative_metrics": {
+          "type": "object",
+          "properties": {
+            "order_to_trade_ratio": { "type": "number" },
+            "cancellation_latency_ms": { "type": "number" },
+            "notional_value_usd": { "type": "number" },
+            "abnormal_return_pct": { "type": "number" },
+            "price_variance_bps": { "type": "number" }
+          },
+          "additionalProperties": true
+        },
+        "evidence_summary": { "type": "string", "minLength": 10 }
+      },
+      "additionalProperties": true
+    },
+    "QueryPayload": {
+      "type": "object",
+      "required": ["query_id", "query_type", "target_subject_id", "time_window"],
+      "properties": {
+        "query_id": { "type": "string", "format": "uuid" },
+        "query_type": {
+          "type": "string",
+          "enum": ["TRADER_COMMUNICATIONS", "ACCOUNT_TRADE_HISTORY", "REGULATORY_STATUTE_LOOKUP", "DESK_LIMITS"]
+        },
+        "target_subject_id": { "type": "string" },
+        "time_window": {
+          "type": "object",
+          "required": ["start_time", "end_time"],
+          "properties": {
+            "start_time": { "type": "string", "format": "date-time" },
+            "end_time": { "type": "string", "format": "date-time" }
+          }
+        },
+        "filter_keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "instrument_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ResponsePayload": {
+      "type": "object",
+      "required": ["response_to_query_id", "status", "evidence_items"],
+      "properties": {
+        "response_to_query_id": { "type": "string", "format": "uuid" },
+        "status": {
+          "type": "string",
+          "enum": ["SUCCESS", "NO_DATA_FOUND", "ACCESS_DENIED_CHINESE_WALL", "ERROR_TIMEOUT"]
+        },
+        "evidence_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["item_id", "timestamp", "source_channel", "content_digest"],
+            "properties": {
+              "item_id": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" },
+              "source_channel": { "type": "string" },
+              "content_digest": { "type": "string" },
+              "snippet": { "type": "string" },
+              "sentiment_score": { "type": "number" },
+              "intent_classification": { "type": "string" }
+            }
+          }
+        },
+        "corroboration_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      },
+      "additionalProperties": false
+    },
+    "UpdatePayload": {
+      "type": "object",
+      "required": ["update_id", "regulator_code", "publication_date", "statute_reference", "update_type"],
+      "properties": {
+        "update_id": { "type": "string", "format": "uuid" },
+        "regulator_code": { "type": "string" },
+        "publication_date": { "type": "string", "format": "date-time" },
+        "statute_reference": { "type": "string" },
+        "update_type": {
+          "type": "string",
+          "enum": ["SANCTIONS_LIST_ADDITION", "MARGIN_REQUIREMENT_CHANGE", "REPORTING_SLA_CHANGE", "LEXICON_UPDATE"]
+        },
+        "effective_date": { "type": "string", "format": "date-time" },
+        "parameter_deltas": { "type": "object" },
+        "impacted_agent_targets": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "HeartbeatPayload": {
+      "type": "object",
+      "required": ["agent_id", "pod_ip", "uptime_seconds", "health_status", "kafka_consumer_lag"],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "pod_ip": { "type": "string" },
+        "uptime_seconds": { "type": "integer" },
+        "health_status": {
+          "type": "string",
+          "enum": ["HEALTHY", "DEGRADED", "CIRCUIT_BREAKER_OPEN"]
+        },
+        "cpu_usage_pct": { "type": "number" },
+        "memory_usage_pct": { "type": "number" },
+        "gpu_vram_usage_pct": { "type": "number" },
+        "kafka_consumer_lag": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "EscalationPayload": {
+      "type": "object",
+      "required": [
+        "escalation_id",
+        "target_tier",
+        "sla_countdown_seconds",
+        "composite_confidence",
+        "statutory_filing_deadline",
+        "decision_support_package"
+      ],
+      "properties": {
+        "escalation_id": { "type": "string", "format": "uuid" },
+        "target_tier": {
+          "type": "string",
+          "enum": ["TIER_1_ANALYST", "TIER_2_SENIOR_ANALYST", "TIER_3_COMPLIANCE_MANAGER", "TIER_4_CCO_BOARD"]
+        },
+        "sla_countdown_seconds": { "type": "integer" },
+        "composite_confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "statutory_filing_deadline": { "type": "string", "format": "date-time" },
+        "filing_type_required": {
+          "type": "string",
+          "enum": ["FINCEN_SAR", "FIU_IND_STR", "SEC_FORM_8K", "FCA_STOR", "GDPR_DPA_NOTICE", "NONE"]
+        },
+        "decision_support_package": {
+          "type": "object",
+          "required": ["incident_summary", "agent_traces", "statutory_citations", "recommended_actions"],
+          "properties": {
+            "incident_summary": { "type": "string" },
+            "agent_traces": { "type": "array", "items": { "type": "object" } },
+            "statutory_citations": { "type": "array", "items": { "type": "string" } },
+            "recommended_actions": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }
