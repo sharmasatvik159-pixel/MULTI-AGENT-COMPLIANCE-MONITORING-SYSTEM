@@ -124,6 +124,8 @@
     "d5_agent_specifications": "docs/agents/",
     "d6_scenario_validation_suite": "tests/scenarios/",
     "d7_observability_and_audit": "docs/observability/",
-    "demo_presentation_script": "docs/loom_demo_script.md"
+    "demo_presentation_script": "docs/loom_demo_script.md",
+    "project_report": "PROJECT-REPORT.md",
+    "project_report_html": "PROJECT-REPORT.html"
   }
 }
